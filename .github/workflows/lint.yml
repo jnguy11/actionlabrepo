@@ -4,9 +4,11 @@ name: Lint
 on: pull_request
 
 jobs:
-  eslint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: ESLint Action
-        uses: hallee/eslint-action@1.0.1
+  build:
+
+    eslint:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v1
+        - name: ESLint Action
+          uses: hallee/eslint-action/lib
