@@ -1,7 +1,4 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-name: Node.js CI
+name: Git Lab Test
 
 on:
   push:
@@ -10,13 +7,13 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        node-version: [12.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -29,3 +26,41 @@ jobs:
     - run: npm test
       env:
         CI: true
+    - name: Black Code Formatter
+      uses: lgeiger/black-action@v1.0.1
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  lint:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x]
+
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: npm login
+        run:
+          npm config set //registry.npmjs.org/:_authToken=$NPM_READONLY_AUTH_TOKEN
+        env:
+          NPM_READONLY_AUTH_TOKEN: ${{ secrets.NPM_READONLY_AUTH_TOKEN }}
+
+      - name: npm install
+        working-directory: ./
+        run: npm i --ignore-scripts
+
+      - name: Run ESLint
+        uses: ninosaurus/eslint-check@v5
+        with:
+          eslint-config-path: "./application/assets/js/.eslintrc.json"
+          custom-directory: "./application"
+          repo-token: ${{secrets.GITHUB_TOKEN}}
