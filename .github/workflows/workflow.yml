@@ -29,3 +29,5 @@ jobs:
 
     - name: ESLint Action
       uses: hallee/eslint-action@1.0.1
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
