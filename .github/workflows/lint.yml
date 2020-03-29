@@ -1,6 +1,5 @@
 name: Lint
 
-
 on: pull_request
 
 jobs:
@@ -8,5 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: ESLint Action
-        uses: hallee/eslint-action
+      - uses: hallee/eslint-action@master
+        with:
+          repo-token: ${{secrets.GITHUB_TOKEN}}

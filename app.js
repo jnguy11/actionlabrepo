@@ -5,7 +5,7 @@ function searchFunc(data, nameSearch) {
             return person["food"]
         }
     }
-}
+};
 
 const foodArray = [
     {name: "john", food: "pie"},
@@ -13,6 +13,6 @@ const foodArray = [
     {name: "armaan", food: "burgers"}
 ];
 
-console.log(searchFunc(foodArray, "jeff"))
+console.log(searchFunc(foodArray, "jeff"));
 
-module.exports = { searchFunc }
+module.exports = { searchFunc };
